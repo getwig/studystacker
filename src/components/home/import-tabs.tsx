@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cn } from '@/lib/utils';
 import { bookImportOptions } from '@/lib/constants';
+import Image from 'next/image';
 
 // Scroll Shadow Hook
 function useScrollShadow() {
@@ -107,7 +108,7 @@ function TabsList({
   return (
     <TabsPrimitive.List
       className={cn(
-        'mx-auto group relative h-10 rounded-full border bg-muted/50 w-max',
+        'mx-auto group relative h-10 rounded-full border w-max',
         className,
       )}
       {...props}
@@ -122,8 +123,7 @@ function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        'px-4 rounded-full text-sm text-muted-foreground cursor-pointer h-10 relative z-10 transition-colors duration-200',
-        'data-[state=active]:text-primary hover:text-primary/80',
+        'px-4 rounded-full text-sm text-muted-foreground data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200',
         className,
       )}
       {...props}
@@ -162,13 +162,20 @@ function useSlidingPill(activeTab: string) {
     const listRect = tabsList.getBoundingClientRect();
     const buttonRect = activeButton.getBoundingClientRect();
 
-    setPillStyle({
+    const newStyle = {
       left: buttonRect.left - listRect.left - 2,
       width: buttonRect.width + 2,
-    });
+    };
+
+    // Only update if values have changed to prevent unnecessary re-renders
+    setPillStyle((prev) =>
+      prev.left === newStyle.left && prev.width === newStyle.width
+        ? prev
+        : newStyle,
+    );
   }, [activeTab]);
 
-  // Function to scroll trigger into full view
+  // Optimized scroll function with early returns and cached calculations
   const scrollTriggerIntoView = useCallback(
     (triggerId: string, scrollRef: React.RefObject<HTMLDivElement | null>) => {
       const trigger = triggerRefs.current[triggerId];
@@ -176,29 +183,22 @@ function useSlidingPill(activeTab: string) {
 
       if (!trigger || !scrollContainer) return;
 
-      const triggerRect = trigger.getBoundingClientRect();
-      const scrollableRect = scrollContainer.getBoundingClientRect();
+      const scrollContainerWidth =
+        scrollContainer.getBoundingClientRect().width;
+      const triggersWidth = tabsListRef.current?.getBoundingClientRect().width;
 
-      const triggerRelativeLeft = triggerRect.left - scrollableRect.left;
-      const triggerRelativeRight = triggerRelativeLeft + triggerRect.width;
+      if (!triggersWidth || triggersWidth <= scrollContainerWidth) return;
 
-      // Check if trigger is partially or fully out of view
-      const isLeftCutOff = triggerRelativeLeft < 0;
-      const isRightCutOff = triggerRelativeRight > scrollableRect.width;
-
-      if (isLeftCutOff || isRightCutOff) {
-        // Use scrollIntoView for more reliable scrolling
-        trigger.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center',
-        });
-      }
+      trigger.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
     },
     [],
   );
 
-  // Update pill position when active tab changes or component mounts
+  // Update pill position when active tab changes
   useEffect(() => {
     updatePillPosition();
   }, [updatePillPosition]);
@@ -228,39 +228,24 @@ function SlidingPill({
 
   return (
     <div
-      className={cn(
-        'absolute -inset-y-px bg-background border border-border rounded-full shadow-sm z-0',
-        mounted
-          ? 'opacity-100 transition-all duration-300 ease-in-out'
-          : 'opacity-0',
-      )}
+      className='absolute -inset-y-px bg-input/30 border border-border rounded-full shadow-sm z-0 transition-all duration-300 ease-in-out'
       style={pillStyle}
     />
   );
 }
 
 // Content Component
-function ImportContent({
-  icon: Icon,
-  title,
-  description,
-  buttonText,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-  buttonText: string;
-}) {
+function ImportContent({ imagePath }: { imagePath: string }) {
   return (
-    <div className='text-center space-y-4 py-8'>
-      <div className='w-16 h-16 bg-primary/10 rounded-full mx-auto flex items-center justify-center'>
-        <Icon className='w-8 h-8 text-primary' />
-      </div>
-      <h4 className='text-lg font-semibold'>{title}</h4>
-      <p className='text-muted-foreground max-w-md mx-auto'>{description}</p>
-      <button className='bg-primary text-primary-foreground px-6 py-2 rounded-full hover:bg-primary/90 transition-colors'>
-        {buttonText}
-      </button>
+    <div className='w-full p-1 sm:p-2 rounded-lg sm:rounded-xl border'>
+      <Image
+        src={imagePath}
+        alt='In App Screenshot'
+        width={2048}
+        height={1260}
+        className='w-full h-full rounded-sm sm:rounded-md border'
+        loading='lazy'
+      />
     </div>
   );
 }
@@ -309,12 +294,7 @@ export function ImportTabs() {
 
       {bookImportOptions.map((option) => (
         <TabsContent key={option.id} value={option.id}>
-          <ImportContent
-            icon={option.icon}
-            title={option.title}
-            description={option.description}
-            buttonText={option.buttonText}
-          />
+          <ImportContent imagePath={option.imagePath} />
         </TabsContent>
       ))}
     </Tabs>

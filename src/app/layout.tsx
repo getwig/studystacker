@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Studystacker',
-  description: 'The best way to manage your schoolbooks.',
+  description: 'Behalte deine Schulbücher im Überblick',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({

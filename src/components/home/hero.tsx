@@ -1,5 +1,5 @@
 import { Section } from './section';
-import { HeroButtons } from './hero-buttons';
+import { CTAButtons } from './cta-buttons';
 
 export function Hero() {
   return (
@@ -19,7 +19,7 @@ export function Hero() {
               Vector embeddings.
             </p>
           </div>
-          <HeroButtons />
+          <CTAButtons buttonIds={['signup', 'login']} />
         </div>
       </div>
     </Section>

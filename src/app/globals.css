@@ -54,6 +54,9 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+
+  --breakpoint-xs: 32rem;
+  --breakpoint-xxs: 24rem;
 }
 
 /* Light theme - Default color scheme */
@@ -182,6 +185,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+  img::selection {
+    @apply bg-primary/50;
+  }
   body,
   .dark {
     @apply bg-background text-foreground;
@@ -196,5 +205,11 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+}
+
+@layer base {
+  button {
+    @apply select-none;
   }
 }

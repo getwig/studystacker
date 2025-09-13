@@ -7,28 +7,37 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useState, useEffect } from 'react';
 import { Separator } from '../ui/separator';
+import { buttonVariants } from '../ui/button';
+import { FocusScope } from '@radix-ui/react-focus-scope';
 
-function MenuContent() {
+function MenuContent({
+  setIsMenuOpen,
+}: {
+  setIsMenuOpen: (isMenuOpen: boolean) => void;
+}) {
   return (
     <div className='bg-background fixed top-16 inset-x-0 bottom-0 overflow-y-auto overscroll-none'>
       <span className='sr-only'>Menu</span>
       <nav className='flex flex-col px-3'>
         <section className='py-3 mx-3 flex flex-col gap-4'>
-          <Link href='/signup'>
-            <Button size='lg' className='w-full'>
-              Jetzt loslegen
-            </Button>
+          <Link
+            href='/signup'
+            className={buttonVariants({ variant: 'default', size: 'lg' })}
+          >
+            Jetzt loslegen
           </Link>
-          <Link href='/login'>
-            <Button variant='outline' size='lg' className='w-full'>
-              Anmelden
-            </Button>
+          <Link
+            href='/login'
+            className={buttonVariants({ variant: 'outline', size: 'lg' })}
+          >
+            Anmelden
           </Link>
           <Separator className='my-3' />
-          <Link href='/contact'>
-            <Button variant='outline' size='lg' className='w-full'>
-              Kontakt
-            </Button>
+          <Link
+            href='/contact'
+            className={buttonVariants({ variant: 'outline', size: 'lg' })}
+          >
+            Kontakt
           </Link>
         </section>
         {/*<section className='py-3'>
@@ -74,39 +83,50 @@ export function Header() {
       )}
     >
       <div className='relative flex justify-between h-16 mx-auto lg:container lg:px-16 xl:px-20'>
-        <div className='flex justify-between items-center flex-1 px-6 lg:px-0'>
+        <div className='hidden lg:flex justify-between items-center flex-1 px-6 lg:px-0'>
           <Link href='/'>
             <Icon className='w-6 h-6' />
           </Link>
           <div className='hidden lg:flex items-center gap-2'>
-            <Link href='/login'>
-              <Button variant='outline' size='sm'>
-                Anmelden
-              </Button>
+            <Link
+              href='/login'
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+            >
+              Anmelden
             </Link>
-            <Link href='/contact'>
-              <Button variant='outline' size='sm'>
-                Kontakt
-              </Button>
+            <Link
+              href='/contact'
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+            >
+              Kontakt
             </Link>
-            <Link href='/signup'>
-              <Button size='sm'>Jetzt loslegen</Button>
+            <Link href='/signup' className={buttonVariants({ size: 'sm' })}>
+              Jetzt loslegen
             </Link>
           </div>
         </div>
-        <div className='inset-y-0 flex mr-2 items-center px-4 lg:hidden'>
-          <Button
-            className='rounded-full relative aspect-square group'
-            variant='outline'
-            size='sm'
-            aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
-            data-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+        <div className='flex-1 inset-y-0 flex mr-2 items-center px-4 lg:hidden'>
+          <FocusScope
+            trapped={isMenuOpen}
+            loop={isMenuOpen}
+            className='w-full flex justify-between items-center'
           >
-            <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute -translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:rotate-45 group-data-[expanded="true"]:scale-110' />
-            <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
-          </Button>
-          {isMenuOpen && <MenuContent />}
+            <Link href='/' onClick={() => setIsMenuOpen(false)}>
+              <Icon className='w-6 h-6' />
+            </Link>
+            <Button
+              className='rounded-full relative aspect-square group'
+              variant='outline'
+              size='sm'
+              aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+              data-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute -translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:rotate-45 group-data-[expanded="true"]:scale-110' />
+              <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
+            </Button>
+            {isMenuOpen && <MenuContent setIsMenuOpen={setIsMenuOpen} />}
+          </FocusScope>
         </div>
       </div>
     </header>
