@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: 'Studystacker',
   description: 'Behalte deine Schulbücher im Überblick',
   icons: {
-    icon: '/icon.svg',
+    icon: '/images/logo/icon.svg',
   },
 };
 
