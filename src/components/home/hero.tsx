@@ -3,7 +3,7 @@ import { CTAButtons } from './cta-buttons';
 
 export function Hero() {
   return (
-    <Section id='hero' className='-mt-[65px]'>
+    <Section id='hero' className='-mt-[65px] pt-8 md:pt-16 lg:py-24'>
       <div className='mx-auto max-w-2xl text-center text-primary'>
         <div className='relative z-10 lg:h-auto pt-[90px] lg:pt-[90px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8'>
           <div className='flex flex-col items-center'>

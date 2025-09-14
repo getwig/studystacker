@@ -257,9 +257,14 @@ export function ImportTabs() {
     useSlidingPill(activeTab);
 
   const { scrollRef, showLeftShadow, showRightShadow } = useScrollShadow();
+  const isFirstRenderRef = useRef(true);
 
-  // Scroll active tab into view whenever activeTab changes
+  // Scroll active tab into view whenever activeTab changes (but not on mount)
   useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
     scrollTriggerIntoView(activeTab, scrollRef);
   }, [activeTab, scrollTriggerIntoView, scrollRef]);
 
