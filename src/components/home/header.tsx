@@ -105,6 +105,7 @@ export function Header() {
           <FocusScope
             trapped={isMenuOpen}
             loop={isMenuOpen}
+            autoFocus={false}
             className='w-full flex justify-between items-center'
           >
             <Link href='/' onClick={() => setIsMenuOpen(false)}>
