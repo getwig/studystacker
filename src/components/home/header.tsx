@@ -5,10 +5,35 @@ import { useScrollY } from '@/hooks/use-scroll-y';
 import { Icon } from '@/components/icon';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
 import { Separator } from '../ui/separator';
 import { buttonVariants } from '../ui/button';
 import { FocusScope } from '@radix-ui/react-focus-scope';
+
+function OptionalFocusScope({
+  enabled,
+  trapped,
+  loop,
+  className,
+  children,
+}: {
+  enabled: boolean;
+  trapped?: boolean;
+  loop?: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (enabled) {
+    return (
+      <FocusScope trapped={trapped} loop={loop} className={className}>
+        {children}
+      </FocusScope>
+    );
+  }
+
+  return <div className={className}>{children}</div>;
+}
 
 function MenuContent() {
   return (
@@ -58,7 +83,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Prevent body scroll when menu is open
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -102,10 +127,10 @@ export function Header() {
           </div>
         </div>
         <div className='flex-1 inset-y-0 flex items-center px-6 lg:hidden'>
-          <FocusScope
+          <OptionalFocusScope
+            enabled={isMenuOpen}
             trapped={isMenuOpen}
             loop={isMenuOpen}
-            autoFocus={false}
             className='w-full flex justify-between items-center'
           >
             <Link href='/' onClick={() => setIsMenuOpen(false)}>
@@ -123,7 +148,7 @@ export function Header() {
               <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
             </Button>
             {isMenuOpen && <MenuContent />}
-          </FocusScope>
+          </OptionalFocusScope>
         </div>
       </div>
     </header>
