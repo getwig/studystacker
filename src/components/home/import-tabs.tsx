@@ -154,7 +154,7 @@ function TabsContent({
 function useSlidingPill(activeTab: string) {
   const [pillStyle, setPillStyle] = useState<{ left: number; width: number }>({
     left: 0,
-    width: 121.84, // Default width before measurement
+    width: 121.844, // Default width before measurement
   });
   const tabsListRef = useRef<HTMLDivElement>(null);
   const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
