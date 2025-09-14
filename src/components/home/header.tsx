@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useScrollY } from '@/hooks/use-scroll-y';
 import { Icon } from '@/components/icon';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -79,7 +78,6 @@ function MenuContent() {
 }
 
 export function Header() {
-  const scrollY = useScrollY();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Prevent body scroll when menu is open
@@ -97,12 +95,7 @@ export function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 w-full bg-background h-[calc(4rem+1px)] border-b border-border/0 transition-colors z-50 transform [transform:translate3d(0,0,999px)]',
-        scrollY !== 0 && 'border-border',
-      )}
-    >
+    <header className='sticky top-0 w-full bg-background h-[calc(4rem+1px)] border-b z-50 transform [transform:translate3d(0,0,999px)]'>
       <div className='relative flex justify-between h-16 mx-auto lg:container lg:px-16 xl:px-20'>
         <div className='hidden lg:flex justify-between items-center flex-1 px-6 lg:px-0'>
           <Link href='/'>

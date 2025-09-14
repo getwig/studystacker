@@ -1,6 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cn } from '@/lib/utils';
 import { bookImportOptions } from '@/lib/constants';
@@ -147,7 +154,7 @@ function TabsContent({
 function useSlidingPill(activeTab: string) {
   const [pillStyle, setPillStyle] = useState<{ left: number; width: number }>({
     left: 0,
-    width: 0,
+    width: 121.84, // Default width before measurement
   });
   const tabsListRef = useRef<HTMLDivElement>(null);
   const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -199,7 +206,7 @@ function useSlidingPill(activeTab: string) {
   );
 
   // Update pill position when active tab changes
-  useEffect(() => {
+  useLayoutEffect(() => {
     updatePillPosition();
   }, [updatePillPosition]);
 
@@ -218,14 +225,6 @@ function SlidingPill({
 }: {
   pillStyle: { left: number; width: number };
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
   return (
     <div
       className='absolute -inset-y-px bg-input/30 border border-border rounded-full shadow-sm z-0 transition-all duration-300 ease-in-out'
@@ -259,8 +258,17 @@ export function ImportTabs() {
   const { scrollRef, showLeftShadow, showRightShadow } = useScrollShadow();
   const isFirstRenderRef = useRef(true);
 
+  // Memoize expensive calculations for pill position
+  const pillPosition = useMemo(
+    () => ({
+      left: Math.round(pillStyle.left),
+      width: pillStyle.width, // Use exact width when available
+    }),
+    [pillStyle.left, pillStyle.width],
+  );
+
   // Scroll active tab into view whenever activeTab changes (but not on mount)
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isFirstRenderRef.current) {
       isFirstRenderRef.current = false;
       return;
@@ -280,7 +288,7 @@ export function ImportTabs() {
         showRightShadow={showRightShadow}
       >
         <TabsList ref={tabsListRef}>
-          <SlidingPill pillStyle={pillStyle} />
+          <SlidingPill pillStyle={pillPosition} />
 
           {bookImportOptions.map((option) => (
             <TabsTrigger
