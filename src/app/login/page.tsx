@@ -14,7 +14,7 @@ export default function LoginPage() {
           Noch kein Account?{' '}
           <Link
             href='/signup'
-            className='hover:underline underline-offset-auto'
+            className='hover:underline underline-offset-3 text-blue-400'
           >
             Jetzt loslegen
           </Link>

@@ -15,7 +15,7 @@ export default function SignupPage() {
             Noch keine Einladung?{' '}
             <Link
               href='/contact'
-              className='hover:underline underline-offset-auto'
+              className='hover:underline underline-offset-3 text-blue-400'
             >
               Kontakt
             </Link>
