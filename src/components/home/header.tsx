@@ -1,38 +1,12 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icon';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { useState, useLayoutEffect } from 'react';
-import type { ReactNode } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Separator } from '../ui/separator';
 import { buttonVariants } from '../ui/button';
 import { FocusScope } from '@radix-ui/react-focus-scope';
-
-function OptionalFocusScope({
-  enabled,
-  trapped,
-  loop,
-  className,
-  children,
-}: {
-  enabled: boolean;
-  trapped?: boolean;
-  loop?: boolean;
-  className?: string;
-  children: ReactNode;
-}) {
-  if (enabled) {
-    return (
-      <FocusScope trapped={trapped} loop={loop} className={className}>
-        {children}
-      </FocusScope>
-    );
-  }
-
-  return <div className={className}>{children}</div>;
-}
 
 function MenuContent() {
   return (
@@ -81,7 +55,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Prevent body scroll when menu is open
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -120,8 +94,7 @@ export function Header() {
           </div>
         </div>
         <div className='flex-1 inset-y-0 flex items-center px-6 lg:hidden'>
-          <OptionalFocusScope
-            enabled={isMenuOpen}
+          <FocusScope
             trapped={isMenuOpen}
             loop={isMenuOpen}
             className='w-full flex justify-between items-center'
@@ -141,7 +114,7 @@ export function Header() {
               <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
             </Button>
             {isMenuOpen && <MenuContent />}
-          </OptionalFocusScope>
+          </FocusScope>
         </div>
       </div>
     </header>
