@@ -75,7 +75,7 @@ export function Header() {
           <Link href='/'>
             <Icon className='w-6 h-6' />
           </Link>
-          <div className='hidden lg:flex items-center gap-2'>
+          <div className='flex items-center gap-2'>
             <Link
               href='/login'
               className={buttonVariants({ variant: 'outline', size: 'sm' })}
