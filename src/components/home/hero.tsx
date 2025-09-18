@@ -12,11 +12,10 @@ export function Hero() {
               <span className='block'>Täglich Zeit sparen</span>
             </h1>
             <p className='pt-2 my-3 text-sm sm:mt-5 lg:mb-0 sm:text-base lg:text-lg text-balance'>
-              Studystacker lässt dich den Überblick über deine Schulbücher
-              behalten. <br className='hidden lg:block' />
-              Start your project with a Postgres database, Authentication,
-              instant APIs, Edge Functions, Realtime subscriptions, Storage, and
-              Vector embeddings.
+              Studystacker ist die führende Plattform für das zentralisierte
+              Management von digitalen Schulbüchern. Füge deine Schulbücher in
+              Sekundenschnelle hinzu, hinterlege deine Verlagszugänge und
+              beginne noch heute.
             </p>
           </div>
           <CTAButtons buttonIds={['signup', 'login']} />
