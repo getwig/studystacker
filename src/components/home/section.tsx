@@ -13,9 +13,7 @@ export function Section({
     <div
       id={id}
       className={cn(
-        'container mx-auto relative',
-        'py-16 sm:py-18 md:py-24',
-        'px-6 lg:px-16 xl:px-20',
+        'container mx-auto relative py-16 sm:py-18 md:py-24 px-6 lg:px-16 xl:px-20',
         className,
       )}
     >

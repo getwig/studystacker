@@ -39,7 +39,7 @@ export function AuthPageWrapper({
           AGB
         </Link>
         <Link href='/cancellation' className='text-xs text-muted-foreground'>
-          Wiederrufsbelehrung
+          Widerrufsbelehrung
         </Link>
       </footer>
     </div>

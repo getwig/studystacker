@@ -51,7 +51,7 @@ export function SignupForm() {
           size='xl'
           loading={form.formState.isSubmitting}
         >
-          Einladung einlösen
+          Fortfahren
         </Button>
       </form>
     </Form>

@@ -33,7 +33,7 @@
         "@radix-ui/react-toggle": "^1.1.10",
         "@radix-ui/react-toggle-group": "^1.1.11",
         "@radix-ui/react-tooltip": "^1.2.8",
-        "@workos-inc/authkit-nextjs": "^2.5.0",
+        "@workos-inc/authkit-nextjs": "^2.7.1",
         "@workos-inc/node": "^7.69.1",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -652,7 +652,7 @@
 
     "@workos-inc/authkit-js": ["@workos-inc/authkit-js@0.13.0", "", {}, "sha512-iA0Dt7D1BmY2/1s4oeA36W/aRt8/b5iyH6rP4AlgnjrcH2lUGkBgDXL76NXc0M7repkDQTMcJJ2NhCSo2rcWmg=="],
 
-    "@workos-inc/authkit-nextjs": ["@workos-inc/authkit-nextjs@2.5.0", "", { "dependencies": { "@workos-inc/node": "^7.37.1", "iron-session": "^8.0.1", "jose": "^5.2.3", "path-to-regexp": "^6.2.2" }, "peerDependencies": { "next": "^13.5.9 || ^14.2.26 || ^15.2.3", "react": "^18.0 || ^19.0.0", "react-dom": "^18.0 || ^19.0.0" } }, "sha512-lXECydEgEV8C6K6qAXnparMhOrlET7rB7br0BWwKq47XHrIufkWS7VdXVLofQYBAf/I/688owKp8WJ1HLku3IA=="],
+    "@workos-inc/authkit-nextjs": ["@workos-inc/authkit-nextjs@2.7.1", "", { "dependencies": { "@workos-inc/node": "^7.67.0", "iron-session": "^8.0.1", "jose": "^5.2.3", "path-to-regexp": "^6.2.2" }, "peerDependencies": { "next": "^13.5.9 || ^14.2.26 || ^15.2.3", "react": "^18.0 || ^19.0.0", "react-dom": "^18.0 || ^19.0.0" } }, "sha512-PV+62OSytsHlqFrZRnstKXJWN4PtZlHcSHs/FQx6JjK3UfxUjOtxKXUWIJNO9mByz9oGQfBN22UsgwOeGOoYSg=="],
 
     "@workos-inc/authkit-react": ["@workos-inc/authkit-react@0.11.0", "", { "dependencies": { "@workos-inc/authkit-js": "0.13.0" }, "peerDependencies": { "react": ">=17" } }, "sha512-67HFSxP4wXC8ECGyvc1yGMwuD5NGkwT2OPt8DavHoKAlO+hRaAlu9wwzqUx1EJrHht0Dcx+l20Byq8Ab0bEhlg=="],
 
