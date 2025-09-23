@@ -81,19 +81,17 @@ export function Publishers() {
           {publishers.map((publisher) => (
             <div
               key={publisher.name}
+              aria-label={publisher.name}
               data-publisher={publisher.name}
+              className={cn(
+                'm-1 size-16 flex justify-center items-center rounded-lg text-muted-foreground transition-colors',
+                hoveredPublisher === publisher.name
+                  ? 'text-primary'
+                  : hoveredPublisher && 'text-muted-foreground/50',
+              )}
               onMouseEnter={() => setHoveredPublisher(publisher.name)}
             >
-              <div
-                className={cn(
-                  'm-1 size-16 flex justify-center items-center rounded-lg text-muted-foreground transition-colors',
-                  hoveredPublisher === publisher.name
-                    ? 'text-primary'
-                    : hoveredPublisher && 'text-muted-foreground/50',
-                )}
-              >
-                <publisher.logo />
-              </div>
+              <publisher.logo />
             </div>
           ))}
         </div>

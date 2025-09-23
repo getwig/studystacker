@@ -130,7 +130,7 @@ function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        'px-4 rounded-full text-sm text-muted-foreground data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200',
+        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200',
         className,
       )}
       {...props}

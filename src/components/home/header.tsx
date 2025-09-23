@@ -115,6 +115,7 @@ export function Header() {
               variant='outline'
               size='sm'
               aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+              aria-expanded={isMenuOpen}
               data-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
