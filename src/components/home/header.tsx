@@ -9,6 +9,7 @@ import { buttonVariants } from '../ui/button';
 import { FocusScope } from '@radix-ui/react-focus-scope';
 import { cn } from '@/lib/utils';
 import { useScrollY } from '@/hooks/use-scroll-y';
+import { useIsTablet } from '@/hooks/use-mobile';
 
 function MenuContent() {
   return (
@@ -56,6 +57,14 @@ function MenuContent() {
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const scrollY = useScrollY();
+  const isTablet = useIsTablet();
+
+  // Auto-close menu when switching to desktop view
+  useEffect(() => {
+    if (!isTablet && isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isTablet, isMenuOpen]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
