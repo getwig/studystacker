@@ -1,26 +1,26 @@
-import { BookOpen } from 'lucide-react';
+import { BookOpen } from "lucide-react";
 
 export const bookImportOptions = [
   {
-    id: 'publisher-import',
-    label: 'Verlagsimport',
-    imagePath: '/images/in-app-screenshot.png',
+    id: "publisher-import",
+    label: "Verlagsimport",
+    imagePath: "/images/in-app-screenshot.png",
   },
   {
-    id: 'book-search',
-    label: 'Buchsuche',
-    imagePath: '/images/in-app-screenshot.png',
+    id: "book-search",
+    label: "Buchsuche",
+    imagePath: "/images/in-app-screenshot.png",
   },
   {
-    id: 'file-upload',
-    label: 'Datei-Upload',
+    id: "file-upload",
+    label: "Datei-Upload",
     icon: BookOpen,
-    imagePath: '/images/in-app-screenshot.png',
+    imagePath: "/images/in-app-screenshot.png",
   },
   {
-    id: 'manual',
-    label: 'Manuell hinzufügen',
+    id: "manual",
+    label: "Manuell hinzufügen",
     icon: BookOpen,
-    imagePath: '/images/in-app-screenshot.png',
+    imagePath: "/images/in-app-screenshot.png",
   },
 ];

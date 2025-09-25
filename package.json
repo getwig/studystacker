@@ -7,8 +7,8 @@
     "dev:backend": "bunx convex dev",
     "build": "next build --turbopack",
     "start": "next start -p 1000",
-    "lint": "eslint",
-    "format": "prettier --write ."
+    "lint": "biome check",
+    "format": "biome format --write"
   },
   "dependencies": {
     "@convex-dev/workos": "^0.0.1",
@@ -71,11 +71,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.0",
-    "prettier": "3.6.2",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "biome": "2.2.0"
   }
 }

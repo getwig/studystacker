@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
 const TABLET_BREAKPOINT = 1024;
@@ -12,10 +12,10 @@ function useMediaQuery(maxWidth: number) {
       setMatches(window.innerWidth < maxWidth);
     };
 
-    mql.addEventListener('change', onChange);
+    mql.addEventListener("change", onChange);
     setMatches(window.innerWidth < maxWidth);
 
-    return () => mql.removeEventListener('change', onChange);
+    return () => mql.removeEventListener("change", onChange);
   }, [maxWidth]);
 
   return !!matches;
