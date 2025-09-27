@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export function Section({
   id,
@@ -13,7 +13,7 @@ export function Section({
     <div
       id={id}
       className={cn(
-        "w-full xs:container mx-auto relative py-16 sm:py-18 md:py-24 px-6 lg:px-16 xl:px-20",
+        'w-full xs:container mx-auto relative py-16 sm:py-18 md:py-24 px-6 lg:px-16 xl:px-20',
         className,
       )}
     >

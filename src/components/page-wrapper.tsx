@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export function PageWrapper({
   children,
@@ -9,7 +9,7 @@ export function PageWrapper({
 }) {
   return (
     <div
-      className={cn("container mx-auto min-h-svh bg-background p-6", className)}
+      className={cn('container mx-auto min-h-svh bg-background p-6', className)}
     >
       {children}
     </div>

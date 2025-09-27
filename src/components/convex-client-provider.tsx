@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
 import {
   AuthKitProvider,
   useAccessToken,
   useAuth,
-} from "@workos-inc/authkit-nextjs/components";
-import { ConvexProviderWithAuth, ConvexReactClient } from "convex/react";
-import { type ReactNode, useCallback, useRef } from "react";
+} from '@workos-inc/authkit-nextjs/components';
+import { ConvexProviderWithAuth, ConvexReactClient } from 'convex/react';
+import { type ReactNode, useCallback, useRef } from 'react';
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 if (!convexUrl) {
-  throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  throw new Error('NEXT_PUBLIC_CONVEX_URL is not set');
 }
 const convex = new ConvexReactClient(convexUrl);
 

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as TabsPrimitive from "@radix-ui/react-tabs";
-import Image from "next/image";
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+import Image from 'next/image';
 import {
   useCallback,
   useEffect,
@@ -9,9 +9,9 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { bookImportOptions } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+} from 'react';
+import { bookImportOptions } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 // Scroll Shadow Hook
 function useScrollShadow() {
@@ -37,14 +37,14 @@ function useScrollShadow() {
     updateShadows();
 
     // Add scroll listener
-    element.addEventListener("scroll", updateShadows);
+    element.addEventListener('scroll', updateShadows);
 
     // Add resize observer to handle container size changes
     const resizeObserver = new ResizeObserver(updateShadows);
     resizeObserver.observe(element);
 
     return () => {
-      element.removeEventListener("scroll", updateShadows);
+      element.removeEventListener('scroll', updateShadows);
       resizeObserver.disconnect();
     };
   }, [updateShadows]);
@@ -71,19 +71,19 @@ function ScrollShadow({
   showRightShadow: boolean;
 }) {
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn('relative', className)}>
       {/* Left shadow */}
       <div
         className={cn(
-          "absolute -left-1 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300",
-          showLeftShadow ? "opacity-100" : "opacity-0",
+          'absolute -left-1 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          showLeftShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
 
       {/* Scrollable content */}
       <div
         ref={scrollRef}
-        className="scrollbar-hide overflow-x-auto h-fit p-1 -m-1"
+        className='scrollbar-hide overflow-x-auto h-fit p-1 -m-1'
         data-scroll-overflow
       >
         {children}
@@ -92,8 +92,8 @@ function ScrollShadow({
       {/* Right shadow */}
       <div
         className={cn(
-          "absolute -right-1 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300",
-          showRightShadow ? "opacity-100" : "opacity-0",
+          'absolute -right-1 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          showRightShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
     </div>
@@ -105,7 +105,7 @@ function Tabs({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) {
-  return <TabsPrimitive.Root className={cn("w-full", className)} {...props} />;
+  return <TabsPrimitive.Root className={cn('w-full', className)} {...props} />;
 }
 
 function TabsList({
@@ -115,7 +115,7 @@ function TabsList({
   return (
     <TabsPrimitive.List
       className={cn(
-        "mx-auto group relative h-10 rounded-full border w-max",
+        'mx-auto group relative h-10 rounded-full border w-max',
         className,
       )}
       {...props}
@@ -130,7 +130,7 @@ function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        "px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200",
+        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200',
         className,
       )}
       {...props}
@@ -144,7 +144,7 @@ function TabsContent({
 }: React.ComponentProps<typeof TabsPrimitive.Content>) {
   return (
     <TabsPrimitive.Content
-      className={cn("mt-6 data-[state=inactive]:hidden", className)}
+      className={cn('mt-6 data-[state=inactive]:hidden', className)}
       {...props}
     />
   );
@@ -197,9 +197,9 @@ function useSlidingPill(activeTab: string) {
       if (!triggersWidth || triggersWidth <= scrollContainerWidth) return;
 
       trigger.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
       });
     },
     [],
@@ -227,7 +227,7 @@ function SlidingPill({
 }) {
   return (
     <div
-      className="absolute -inset-y-px bg-input/30 border border-border rounded-full shadow-sm z-0 transition-all duration-300 ease-in-out"
+      className='absolute -inset-y-px bg-input/30 border border-border rounded-full shadow-sm z-0 transition-all duration-300 ease-in-out'
       style={pillStyle}
     />
   );
@@ -236,14 +236,14 @@ function SlidingPill({
 // Content Component
 function ImportContent({ imagePath }: { imagePath: string }) {
   return (
-    <div className="w-full p-1 sm:p-2 rounded-lg sm:rounded-xl border">
+    <div className='w-full p-1 sm:p-2 rounded-lg sm:rounded-xl border'>
       <Image
         src={imagePath}
-        alt="In App Screenshot"
+        alt='In App Screenshot'
         width={2048}
         height={1260}
-        className="w-full h-full rounded-sm sm:rounded-md border"
-        loading="lazy"
+        className='w-full h-full rounded-sm sm:rounded-md border'
+        loading='lazy'
       />
     </div>
   );

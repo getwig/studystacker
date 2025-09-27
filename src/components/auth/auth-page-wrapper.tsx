@@ -29,16 +29,28 @@ export function AuthPageWrapper({
         {children}
       </main>
       <footer className='w-full p-6 flex justify-center gap-4 flex-wrap'>
-        <Link href='/imprint' className='text-xs text-muted-foreground hover:text-primary transition-colors'>
+        <Link
+          href='/imprint'
+          className='text-xs text-muted-foreground hover:text-primary transition-colors'
+        >
           Impressum
         </Link>
-        <Link href='/privacy' className='text-xs text-muted-foreground hover:text-primary transition-colors'>
+        <Link
+          href='/privacy'
+          className='text-xs text-muted-foreground hover:text-primary transition-colors'
+        >
           Datenschutz
         </Link>
-        <Link href='/terms' className='text-xs text-muted-foreground hover:text-primary transition-colors'>
+        <Link
+          href='/terms'
+          className='text-xs text-muted-foreground hover:text-primary transition-colors'
+        >
           AGB
         </Link>
-        <Link href='/cancellation' className='text-xs text-muted-foreground hover:text-primary transition-colors'>
+        <Link
+          href='/cancellation'
+          className='text-xs text-muted-foreground hover:text-primary transition-colors'
+        >
           Widerrufsbelehrung
         </Link>
       </footer>
