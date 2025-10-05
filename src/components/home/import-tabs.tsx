@@ -130,15 +130,27 @@ function TabsTrigger({
   const [isFocusVisible, setIsFocusVisible] = useState(true);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Scroll trigger into view when it becomes active
+  // Scroll trigger into view when it becomes active, but only if content is overflowing
   useEffect(() => {
-    if (isActive) {
+    if (isActive && triggerRef.current) {
       setIsFocusVisible(false);
-      triggerRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
+
+      // Find the scroll container
+      const scrollContainer = triggerRef.current.closest(
+        '[data-scroll-overflow]',
+      ) as HTMLElement | null;
+
+      // Only scroll if the content is actually overflowing
+      if (
+        scrollContainer &&
+        scrollContainer.scrollWidth > scrollContainer.clientWidth
+      ) {
+        triggerRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center',
+        });
+      }
     }
   }, [isActive]);
 
@@ -176,33 +188,33 @@ function TabsTrigger({
   );
 }
 
-function TabsContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
-  return (
-    <TabsPrimitive.Content
-      className={cn('mt-6 data-[state=inactive]:hidden', className)}
-      {...props}
-    />
-  );
-}
-
 // Type-safe tab ID based on available options
 type TabId = (typeof bookImportOptions)[number]['id'];
 
-// Content Component
-function ImportContent({ imagePath }: { imagePath: string }) {
+// Video Player Component
+function VideoPlayer({ src, imagePath }: { src: string; imagePath: string }) {
   return (
-    <div className='w-full p-1 sm:p-2 rounded-lg sm:rounded-xl border'>
-      <Image
-        src={imagePath}
-        alt='In App Screenshot'
-        width={2048}
-        height={1260}
-        className='w-full h-full rounded-sm sm:rounded-md border'
-        loading='lazy'
-      />
+    <div className='relative w-full' style={{ aspectRatio: '16 / 9' }}>
+      <div className='absolute inset-0'>
+        <video
+          className='relative z-10 block w-full h-full object-contain reduce-motion:hidden'
+          loop
+          autoPlay
+          playsInline
+          muted
+          poster={imagePath}
+        >
+          <source src={src} type='video/webm' />
+        </video>
+        <Image
+          alt='In App Screenshot'
+          loading='lazy'
+          width={2048}
+          height={1260}
+          className='reduce-motion:block hidden absolute inset-0 w-full h-full object-contain'
+          src={imagePath}
+        />
+      </div>
     </div>
   );
 }
@@ -235,11 +247,28 @@ export function ImportTabs() {
         </TabsList>
       </ScrollShadow>
 
-      {bookImportOptions.map((option) => (
-        <TabsContent key={option.id} value={option.id} tabIndex={-1}>
-          <ImportContent imagePath={option.imagePath} />
-        </TabsContent>
-      ))}
+      <div className='w-full mt-6 p-1 sm:p-2 rounded-lg sm:rounded-xl border'>
+        <div className='relative w-full rounded-sm sm:rounded-md border overflow-hidden'>
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: 'easeIn' }}
+            className='size-full'
+          >
+            <VideoPlayer
+              src={
+                bookImportOptions.find((option) => option.id === activeTab)
+                  ?.videoPath ?? ''
+              }
+              imagePath={
+                bookImportOptions.find((option) => option.id === activeTab)
+                  ?.imagePath ?? ''
+              }
+            />
+          </motion.div>
+        </div>
+      </div>
     </Tabs>
   );
 }
