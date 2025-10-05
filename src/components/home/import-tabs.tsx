@@ -1,15 +1,9 @@
 'use client';
 
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { motion } from 'motion/react';
 import Image from 'next/image';
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { bookImportOptions } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -25,8 +19,8 @@ function useScrollShadow() {
 
     const { scrollLeft, scrollWidth, clientWidth } = element;
 
-    setShowLeftShadow(scrollLeft > 0);
-    setShowRightShadow(scrollLeft < scrollWidth - clientWidth);
+    setShowLeftShadow(scrollLeft > 10);
+    setShowRightShadow(scrollLeft < scrollWidth - clientWidth - 10);
   }, []);
 
   useEffect(() => {
@@ -74,8 +68,9 @@ function ScrollShadow({
     <div className={cn('relative', className)}>
       {/* Left shadow */}
       <div
+        aria-hidden='true'
         className={cn(
-          'absolute -left-1 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'absolute -left-1 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
           showLeftShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
@@ -91,8 +86,9 @@ function ScrollShadow({
 
       {/* Right shadow */}
       <div
+        aria-hidden='true'
         className={cn(
-          'absolute -right-1 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'absolute -right-1 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
           showRightShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
@@ -115,7 +111,7 @@ function TabsList({
   return (
     <TabsPrimitive.List
       className={cn(
-        'mx-auto group relative h-10 rounded-full border w-max',
+        'mx-auto group relative h-10 rounded-full sm:border w-max',
         className,
       )}
       {...props}
@@ -125,16 +121,58 @@ function TabsList({
 
 function TabsTrigger({
   className,
+  children,
+  isActive,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+}: React.ComponentProps<typeof TabsPrimitive.Trigger> & {
+  isActive?: boolean;
+}) {
+  const [isFocusVisible, setIsFocusVisible] = useState(true);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Scroll trigger into view when it becomes active
+  useEffect(() => {
+    if (isActive) {
+      setIsFocusVisible(false);
+      triggerRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
+  }, [isActive]);
+
   return (
     <TabsPrimitive.Trigger
+      ref={triggerRef}
       className={cn(
-        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative z-10 transition-colors duration-200',
+        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative transition-colors duration-200',
+        !isFocusVisible && 'focus-visible:outline-none',
         className,
       )}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          setIsFocusVisible(false);
+        }
+      }}
+      onFocus={() => {
+        setIsFocusVisible(true);
+      }}
       {...props}
-    />
+    >
+      {isActive && (
+        <motion.span
+          layoutId='bubble'
+          className='absolute -top-px bottom-px -inset-x-px bg-input/30 border border-border rounded-full shadow-sm z-0'
+          transition={{
+            type: 'spring',
+            duration: 0.4,
+            bounce: 0,
+          }}
+        />
+      )}
+      <span className='relative z-10'>{children}</span>
+    </TabsPrimitive.Trigger>
   );
 }
 
@@ -150,88 +188,8 @@ function TabsContent({
   );
 }
 
-// Custom Hook for Pill Positioning
-function useSlidingPill(activeTab: string) {
-  const [pillStyle, setPillStyle] = useState<{ left: number; width: number }>({
-    left: 0,
-    width: 121.844, // Default width before measurement
-  });
-  const tabsListRef = useRef<HTMLDivElement>(null);
-  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-
-  // Memoized function to calculate pill position and dimensions
-  const updatePillPosition = useCallback(() => {
-    const activeButton = triggerRefs.current[activeTab];
-    const tabsList = tabsListRef.current;
-
-    if (!activeButton || !tabsList) return;
-
-    const listRect = tabsList.getBoundingClientRect();
-    const buttonRect = activeButton.getBoundingClientRect();
-
-    const newStyle = {
-      left: buttonRect.left - listRect.left - 2,
-      width: buttonRect.width + 2,
-    };
-
-    // Only update if values have changed to prevent unnecessary re-renders
-    setPillStyle((prev) =>
-      prev.left === newStyle.left && prev.width === newStyle.width
-        ? prev
-        : newStyle,
-    );
-  }, [activeTab]);
-
-  // Optimized scroll function with early returns and cached calculations
-  const scrollTriggerIntoView = useCallback(
-    (triggerId: string, scrollRef: React.RefObject<HTMLDivElement | null>) => {
-      const trigger = triggerRefs.current[triggerId];
-      const scrollContainer = scrollRef.current;
-
-      if (!trigger || !scrollContainer) return;
-
-      const scrollContainerWidth =
-        scrollContainer.getBoundingClientRect().width;
-      const triggersWidth = tabsListRef.current?.getBoundingClientRect().width;
-
-      if (!triggersWidth || triggersWidth <= scrollContainerWidth) return;
-
-      trigger.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    },
-    [],
-  );
-
-  // Update pill position when active tab changes
-  useLayoutEffect(() => {
-    updatePillPosition();
-  }, [updatePillPosition]);
-
-  return {
-    pillStyle,
-    tabsListRef,
-    triggerRefs,
-    updatePillPosition,
-    scrollTriggerIntoView,
-  };
-}
-
-// Sliding Pill Component
-function SlidingPill({
-  pillStyle,
-}: {
-  pillStyle: { left: number; width: number };
-}) {
-  return (
-    <div
-      className='absolute -inset-y-px bg-input/30 border border-border rounded-full shadow-sm z-0 transition-all duration-300 ease-in-out'
-      style={pillStyle}
-    />
-  );
-}
+// Type-safe tab ID based on available options
+type TabId = (typeof bookImportOptions)[number]['id'];
 
 // Content Component
 function ImportContent({ imagePath }: { imagePath: string }) {
@@ -251,53 +209,25 @@ function ImportContent({ imagePath }: { imagePath: string }) {
 
 // Main Component
 export function ImportTabs() {
-  const [activeTab, setActiveTab] = useState(bookImportOptions[0].id);
-  const { pillStyle, tabsListRef, triggerRefs, scrollTriggerIntoView } =
-    useSlidingPill(activeTab);
-
+  const [activeTab, setActiveTab] = useState<TabId>(bookImportOptions[0].id);
   const { scrollRef, showLeftShadow, showRightShadow } = useScrollShadow();
-  const isFirstRenderRef = useRef(true);
-
-  // Memoize expensive calculations for pill position
-  const pillPosition = useMemo(
-    () => ({
-      left: Math.round(pillStyle.left),
-      width: pillStyle.width, // Use exact width when available
-    }),
-    [pillStyle.left, pillStyle.width],
-  );
-
-  // Scroll active tab into view whenever activeTab changes (but not on mount)
-  useLayoutEffect(() => {
-    if (isFirstRenderRef.current) {
-      isFirstRenderRef.current = false;
-      return;
-    }
-    scrollTriggerIntoView(activeTab, scrollRef);
-  }, [activeTab, scrollTriggerIntoView, scrollRef]);
-
-  const handleTabTriggerClick = useCallback((triggerId: string) => {
-    setActiveTab(triggerId);
-  }, []);
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab}>
+    <Tabs
+      value={activeTab}
+      onValueChange={(value) => setActiveTab(value as TabId)}
+    >
       <ScrollShadow
         scrollRef={scrollRef}
         showLeftShadow={showLeftShadow}
         showRightShadow={showRightShadow}
       >
-        <TabsList ref={tabsListRef}>
-          <SlidingPill pillStyle={pillPosition} />
-
+        <TabsList loop={false}>
           {bookImportOptions.map((option) => (
             <TabsTrigger
               key={option.id}
               value={option.id}
-              ref={(el) => {
-                triggerRefs.current[option.id] = el;
-              }}
-              onClick={() => handleTabTriggerClick(option.id)}
+              isActive={activeTab === option.id}
             >
               {option.label}
             </TabsTrigger>
@@ -306,7 +236,7 @@ export function ImportTabs() {
       </ScrollShadow>
 
       {bookImportOptions.map((option) => (
-        <TabsContent key={option.id} value={option.id}>
+        <TabsContent key={option.id} value={option.id} tabIndex={-1}>
           <ImportContent imagePath={option.imagePath} />
         </TabsContent>
       ))}

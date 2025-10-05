@@ -10,7 +10,7 @@ const geistSans = Geist({
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
+const _geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
@@ -30,9 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='de'>
-      <body
-        className={`${geistSans.variable} font-sans antialiased dark`}
-      >
+      <body className={`${geistSans.variable} font-sans antialiased dark`}>
         {children}
         <Toaster />
         <SpeedInsights />

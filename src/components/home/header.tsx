@@ -127,8 +127,8 @@ export function Header() {
               data-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute -translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:rotate-45 group-data-[expanded="true"]:scale-110' />
-              <div className='bg-primary w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
+              <div className='bg-foreground w-[14px] h-[1.5px] rounded-full absolute -translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:rotate-45 group-data-[expanded="true"]:scale-110' />
+              <div className='bg-foreground w-[14px] h-[1.5px] rounded-full absolute translate-y-[3.5px] transition-transform duration-150 ease-in-out group-data-[expanded="true"]:translate-y-0 group-data-[expanded="true"]:-rotate-45 group-data-[expanded="true"]:scale-110' />
             </Button>
             {isMenuOpen && <MenuContent />}
           </FocusScope>

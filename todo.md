@@ -1,0 +1,5 @@
+- arcjet for rate limiting and bot protection
+- dark sidebar on windows 
+- improve shadow and scroll into view functionality
+- header nav link acts weird on 3d clicking iphone
+- hide focus on (arrow) movement

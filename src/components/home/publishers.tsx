@@ -79,10 +79,8 @@ export function Publishers() {
           onMouseLeave={() => setHoveredPublisher(null)}
         >
           {publishers.map((publisher) => (
-            <button
-              type='button'
+            <div
               key={publisher.name}
-              aria-label={publisher.name}
               data-publisher={publisher.name}
               className={cn(
                 'm-1 sm:size-16 size-14 flex justify-center items-center rounded-lg text-muted-foreground transition-colors',
@@ -93,7 +91,7 @@ export function Publishers() {
               onMouseEnter={() => setHoveredPublisher(publisher.name)}
             >
               <publisher.logo />
-            </button>
+            </div>
           ))}
         </div>
       </div>
