@@ -123,18 +123,21 @@ function TabsTrigger({
   className,
   children,
   isActive,
+  isFocusVisible,
+  onKeyDown,
+  onFocus,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Trigger> & {
   isActive?: boolean;
+  isFocusVisible: boolean;
+  onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
+  onFocus: () => void;
 }) {
-  const [isFocusVisible, setIsFocusVisible] = useState(true);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   // Scroll trigger into view when it becomes active, but only if content is overflowing
   useEffect(() => {
     if (isActive && triggerRef.current) {
-      setIsFocusVisible(false);
-
       // Find the scroll container
       const scrollContainer = triggerRef.current.closest(
         '[data-scroll-overflow]',
@@ -162,14 +165,8 @@ function TabsTrigger({
         !isFocusVisible && 'focus-visible:outline-none',
         className,
       )}
-      onKeyDown={(e) => {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-          setIsFocusVisible(false);
-        }
-      }}
-      onFocus={() => {
-        setIsFocusVisible(true);
-      }}
+      onKeyDown={onKeyDown}
+      onFocus={onFocus}
       {...props}
     >
       {isActive && (
@@ -223,6 +220,24 @@ function VideoPlayer({ src, imagePath }: { src: string; imagePath: string }) {
 export function ImportTabs() {
   const [activeTab, setActiveTab] = useState<TabId>(bookImportOptions[0].id);
   const { scrollRef, showLeftShadow, showRightShadow } = useScrollShadow();
+  const [isFocusVisible, setIsFocusVisible] = useState(false);
+  const lastArrowKeyTime = useRef<number>(0);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        lastArrowKeyTime.current = Date.now();
+        setIsFocusVisible(false);
+      }
+    },
+    [],
+  );
+
+  const handleFocus = useCallback(() => {
+    const timeSinceArrowKey = Date.now() - lastArrowKeyTime.current;
+    // If arrow key was pressed within last 100ms, it's keyboard navigation
+    setIsFocusVisible(timeSinceArrowKey > 100);
+  }, []);
 
   return (
     <Tabs
@@ -240,6 +255,9 @@ export function ImportTabs() {
               key={option.id}
               value={option.id}
               isActive={activeTab === option.id}
+              isFocusVisible={isFocusVisible}
+              onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
             >
               {option.label}
             </TabsTrigger>
