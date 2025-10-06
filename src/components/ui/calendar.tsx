@@ -1,6 +1,6 @@
 'use client';
 
-import { type ComponentProps } from 'react';
+import * as React from 'react';
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -20,8 +20,8 @@ function Calendar({
   formatters,
   components,
   ...props
-}: ComponentProps<typeof DayPicker> & {
-  buttonVariant?: ComponentProps<typeof Button>['variant'];
+}: React.ComponentProps<typeof DayPicker> & {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
 }) {
   const defaultClassNames = getDefaultClassNames();
 
@@ -177,7 +177,7 @@ function CalendarDayButton({
   day,
   modifiers,
   ...props
-}: ComponentProps<typeof DayButton>) {
+}: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames();
 
   const ref = React.useRef<HTMLButtonElement>(null);
