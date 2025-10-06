@@ -1,12 +1,12 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 const MOBILE_BREAKPOINT = 768;
 const TABLET_BREAKPOINT = 1024;
 
 function useMediaQuery(maxWidth: number) {
-  const [matches, setMatches] = React.useState<boolean | undefined>(undefined);
+  const [matches, setMatches] = useState<boolean | undefined>(undefined);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${maxWidth - 1}px)`);
     const onChange = () => {
       setMatches(window.innerWidth < maxWidth);

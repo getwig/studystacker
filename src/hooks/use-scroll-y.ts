@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 export function useScrollY() {
-  const [scrollY, setScrollY] = React.useState<number | undefined>(undefined);
+  const [scrollY, setScrollY] = useState<number | undefined>(undefined);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onScroll = () => {
       setScrollY(window.scrollY);
     };

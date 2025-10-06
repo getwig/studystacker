@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 import { Input, inputVariants } from './input';
 import { type VariantProps } from 'class-variance-authority';
@@ -12,7 +12,7 @@ import { AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { useFormField } from './form';
 
 // Type definitions
-export type FormInputProps = Omit<React.ComponentProps<'input'>, 'size'> &
+export type FormInputProps = Omit<ComponentProps<'input'>, 'size'> &
   VariantProps<typeof inputVariants>;
 
 type InputSize = 'sm' | 'lg' | 'xl' | undefined;

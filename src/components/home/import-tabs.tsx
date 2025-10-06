@@ -70,7 +70,7 @@ function ScrollShadow({
       <div
         aria-hidden='true'
         className={cn(
-          'absolute -left-1 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
+          'absolute -left-[5px] top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
           showLeftShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
@@ -88,7 +88,7 @@ function ScrollShadow({
       <div
         aria-hidden='true'
         className={cn(
-          'absolute -right-1 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
+          'absolute -right-[5px] top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
           showRightShadow ? 'opacity-100' : 'opacity-0',
         )}
       />
@@ -174,7 +174,7 @@ function TabsTrigger({
       {isActive && (
         <motion.span
           layoutId='bubble'
-          className='absolute -top-px -bottom-px -inset-x-px bg-input/30 border border-border rounded-full shadow-sm z-0'
+          className='absolute -top-px -bottom-px -inset-x-px bg-input/30 border border-border rounded-full z-0'
           transition={{
             type: 'spring',
             duration: 0.4,
