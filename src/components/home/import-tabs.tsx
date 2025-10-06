@@ -78,7 +78,7 @@ function ScrollShadow({
       {/* Scrollable content */}
       <div
         ref={scrollRef}
-        className='scrollbar-hide overflow-x-auto h-fit p-1 -m-1'
+        className='scrollbar-hide overflow-x-auto h-fit p-[5px] -m-[5px]'
         data-scroll-overflow
       >
         {children}
@@ -161,8 +161,10 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       ref={triggerRef}
       className={cn(
-        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-10 relative transition-colors duration-200',
-        !isFocusVisible && 'focus-visible:outline-none',
+        'px-4 rounded-full text-sm text-muted-foreground hover:text-primary data-[state=active]:text-primary cursor-pointer h-full relative transition-all duration-200 outline-none',
+        isFocusVisible
+          ? 'focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-background'
+          : 'outline-none',
         className,
       )}
       onKeyDown={onKeyDown}
@@ -172,7 +174,7 @@ function TabsTrigger({
       {isActive && (
         <motion.span
           layoutId='bubble'
-          className='absolute -top-px bottom-px -inset-x-px bg-input/30 border border-border rounded-full shadow-sm z-0'
+          className='absolute -top-px -bottom-px -inset-x-px bg-input/30 border border-border rounded-full shadow-sm z-0'
           transition={{
             type: 'spring',
             duration: 0.4,
