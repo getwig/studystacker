@@ -1,11 +1,47 @@
 'use client';
 
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { BookOpen } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { bookImportOptions } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+
+const bookImportOptions = [
+  {
+    id: 'publisher-import',
+    label: 'Verlagsimport',
+    videoPath:
+      'https://xguihxuzqibwxjnimxev.supabase.co/storage/v1/object/public/videos/marketing/website/supabase-table-editor.webm',
+    imagePath:
+      'https://supabase.com/images/index/dashboard/supabase-table-editor.png',
+  },
+  {
+    id: 'book-search',
+    label: 'Buchsuche',
+    videoPath:
+      'https://xguihxuzqibwxjnimxev.supabase.co/storage/v1/object/public/videos/marketing/website/supabase-sql-editor.webm',
+    imagePath:
+      'https://supabase.com/images/index/dashboard/supabase-sql-editor.png',
+  },
+  {
+    id: 'file-upload',
+    label: 'Datei-Upload',
+    icon: BookOpen,
+    videoPath:
+      'https://xguihxuzqibwxjnimxev.supabase.co/storage/v1/object/public/videos/marketing/website/supabase-rls.webm',
+    imagePath: 'https://supabase.com/images/index/dashboard/supabase-rls.png',
+  },
+  {
+    id: 'manual',
+    label: 'Manuell hinzufügen',
+    icon: BookOpen,
+    videoPath:
+      'https://xguihxuzqibwxjnimxev.supabase.co/storage/v1/object/public/videos/marketing/website/supabase-table-editor.webm',
+    imagePath:
+      'https://supabase.com/images/index/dashboard/supabase-table-editor.png',
+  },
+];
 
 // Scroll Shadow Hook
 function useScrollShadow() {
@@ -19,8 +55,8 @@ function useScrollShadow() {
 
     const { scrollLeft, scrollWidth, clientWidth } = element;
 
-    setShowLeftShadow(scrollLeft > 10);
-    setShowRightShadow(scrollLeft < scrollWidth - clientWidth - 10);
+    setShowLeftShadow(scrollLeft > 4);
+    setShowRightShadow(scrollLeft < scrollWidth - clientWidth - 4);
   }, []);
 
   useEffect(() => {
