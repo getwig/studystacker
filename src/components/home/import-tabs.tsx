@@ -170,9 +170,16 @@ function TabsTrigger({
   onFocus: () => void;
 }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const isInitialMount = useRef(true);
 
   // Scroll trigger into view when it becomes active, but only if content is overflowing
   useEffect(() => {
+    // Skip scrolling on initial mount
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
     if (isActive && triggerRef.current) {
       // Find the scroll container
       const scrollContainer = triggerRef.current.closest(
@@ -184,10 +191,19 @@ function TabsTrigger({
         scrollContainer &&
         scrollContainer.scrollWidth > scrollContainer.clientWidth
       ) {
-        triggerRef.current.scrollIntoView({
+        // Get the trigger's position relative to the scroll container
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        const containerRect = scrollContainer.getBoundingClientRect();
+
+        // Calculate the center position
+        const triggerCenter = triggerRect.left + triggerRect.width / 2;
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        const scrollOffset = triggerCenter - containerCenter;
+
+        // Scroll only horizontally
+        scrollContainer.scrollBy({
+          left: scrollOffset,
           behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center',
         });
       }
     }
