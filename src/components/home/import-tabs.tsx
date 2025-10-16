@@ -45,18 +45,11 @@ const bookImportOptions = [
 
 // Scroll Shadow Hook
 function useScrollShadow() {
-  const [showLeftShadow, setShowLeftShadow] = useState(false);
-  const [showRightShadow, setShowRightShadow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const updateShadows = useCallback(() => {
     const element = scrollRef.current;
     if (!element) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = element;
-
-    setShowLeftShadow(scrollLeft > 4);
-    setShowRightShadow(scrollLeft < scrollWidth - clientWidth - 4);
   }, []);
 
   useEffect(() => {
@@ -79,11 +72,7 @@ function useScrollShadow() {
     };
   }, [updateShadows]);
 
-  return {
-    scrollRef,
-    showLeftShadow,
-    showRightShadow,
-  };
+  return { scrollRef };
 }
 
 // Scroll Shadow Container Component
@@ -91,43 +80,22 @@ function ScrollShadow({
   children,
   className,
   scrollRef,
-  showLeftShadow,
-  showRightShadow,
 }: {
   children: React.ReactNode;
   className?: string;
   scrollRef: React.RefObject<HTMLDivElement | null>;
-  showLeftShadow: boolean;
-  showRightShadow: boolean;
 }) {
   return (
     <div className={cn('relative', className)}>
-      {/* Left shadow */}
-      <div
-        aria-hidden='true'
-        className={cn(
-          'absolute -left-[5px] top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
-          showLeftShadow ? 'opacity-100' : 'opacity-0',
-        )}
-      />
-
-      {/* Scrollable content */}
       <div
         ref={scrollRef}
-        className='scrollbar-hide overflow-x-auto h-fit p-[5px] -m-[5px]'
+        className={cn('scrollbar-hide overflow-x-auto h-fit py-[5px] px-4')}
         data-scroll-overflow
       >
         {children}
       </div>
-
-      {/* Right shadow */}
-      <div
-        aria-hidden='true'
-        className={cn(
-          'absolute -right-[5px] top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none transition-opacity duration-200',
-          showRightShadow ? 'opacity-100' : 'opacity-0',
-        )}
-      />
+      <div className='absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none' />
+      <div className='absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none' />
     </div>
   );
 }
@@ -273,7 +241,7 @@ function VideoPlayer({ src, imagePath }: { src: string; imagePath: string }) {
 // Main Component
 export function ImportTabs() {
   const [activeTab, setActiveTab] = useState<TabId>(bookImportOptions[0].id);
-  const { scrollRef, showLeftShadow, showRightShadow } = useScrollShadow();
+  const { scrollRef } = useScrollShadow();
   const [isFocusVisible, setIsFocusVisible] = useState(false);
   const lastArrowKeyTime = useRef<number>(0);
 
@@ -298,11 +266,7 @@ export function ImportTabs() {
       value={activeTab}
       onValueChange={(value) => setActiveTab(value as TabId)}
     >
-      <ScrollShadow
-        scrollRef={scrollRef}
-        showLeftShadow={showLeftShadow}
-        showRightShadow={showRightShadow}
-      >
+      <ScrollShadow scrollRef={scrollRef}>
         <TabsList loop={false}>
           {bookImportOptions.map((option) => (
             <TabsTrigger
